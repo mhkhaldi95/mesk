@@ -22,9 +22,12 @@ class ControllerCategory extends Controller
         //     return $q->where('name','like','%'.$request->search.'%');
         //  })->paginate(5);
         $categories = Category::all();
-
+        if($request->ajax())
+        return response()->json(['glasses'=>$categories[5]->products]);
+        else
         return view('adminlte.dashboardview.Categories.index', compact('categories'));
     }
+   
     public function create()
     {
         return view('adminlte.dashboardview.Categories.create');

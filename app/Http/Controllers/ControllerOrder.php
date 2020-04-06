@@ -23,13 +23,35 @@ class ControllerOrder extends Controller
       
         return view('adminlte.dashboardview.Orders.index',compact('orders'));
     }
-    public function create(Client $client ,Order $order)
-    {
+    public function create(Client $client)
+    { 
+    
+        $orders = $client->orders()->orderBy('created_at', 'DESC')->paginate(5);
+        // $categories = Category::all();
+        return view('adminlte.dashboardview.Clients.Orders.create',compact('client','orders'));
 
-        $orders = $client->orders()->paginate(5);
-        $categories = Category::all();
-        return view('adminlte.dashboardview.Clients.Orders.create',compact('client','categories','orders'));
-
+    }
+     public function fetch_data(Request $request,Client $client ){
+        
+        if ($request->ajax()) {
+            $orders = $client->orders()->orderBy('created_at', 'DESC')->paginate(5);
+            return view('adminlte.dashboardview.Clients.Orders.load', ['orders' => $orders,'client'=>$client])->render();  
+        }
+    }
+    public function showProducts_order(){
+       
+        return Datatables::of(Product::query())
+        
+        ->addColumn('action',function($product) {
+           
+            $categories = Category::all();
+            return '<a data-name ="'.$product->name.'" data-value="'.$product->id.'" class="btn btn-primary add_product" >
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>';
+        })
+        ->rawColumns(['action'])
+       
+        ->toJson();
     }
     public function store(Request $request,Client $client,$flag=0)
     {   
@@ -110,11 +132,7 @@ class ControllerOrder extends Controller
         return redirect()->route('dashboard.orders.index');
 
     }
-
-
-
-    
-    private function destroyForUpdate(Order $order)
+     private function destroyForUpdate(Order $order)
     {
        
         foreach ($order->products as $product){
@@ -151,68 +169,27 @@ class ControllerOrder extends Controller
       
         // $total_paid= 0;
         $total_price= 0;
-        // $remaining=0;
+        $product_ids = [1,2,3,4];
+
         $order= $client->orders()->create([]);//ر32
          foreach ($request->product_ids as $index=>$product_id){
              
             $product = Product::find($product_id);
+           
             $stoke_perfume =$request->order =="retail"?$product->retail_stoke:$product->whole_stoke;
              if($request->volume[$index]<=$stoke_perfume){
-                 $product_glass = Product::find($request->glass_ids[$index]);
-
-                 $stoke_glass =$request->order =="retail"?$product_glass->retail_stoke:$product_glass->whole_stoke;
+                $debt=   $request->paid[$index]-(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
+                $total_price+=(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
+                $store_Order_Product=null;
+                 if(in_array($product->category->id,$product_ids)){
+                    $product_glass = Product::find($request->glass_ids[$index]);
+                    $stoke_glass =$request->order =="retail"?$product_glass->retail_stoke:$product_glass->whole_stoke;
                      if($request->quantity[$index]<=$stoke_glass){
-                         $debt=   $request->paid[$index]-(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
-                         $total_price+=(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
-                        //  $total_paid+=(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index])+$debt;
-                        // $remaining+=$debt;
-                        $store_Order_Product = new OrderProduct(); 
-                        $store_Order_Product->order_id = $order->id;
-                        $store_Order_Product->product_id = $product->id;
-                        $store_Order_Product->client_id = $client->id;
-                        $store_Order_Product->quantity = $request->quantity[$index];
-                        $store_Order_Product->sale_price = $request->sale_price[$index];
-                        $store_Order_Product->discount = $request->discount[$index];
-                        $store_Order_Product->volume = $request->volume[$index];
-                        $store_Order_Product->glass_id = $product_glass->id;
-                        if($debt==0)
-                        $store_Order_Product->isDelevery = true;
-                        $store_Order_Product->save();
-                        // $order->products()->attach($product_id,
-                        //  ['quantity'=>$request->quantity[$index],
-                        //  'sale_price'=>$request->sale_price[$index],
-                        //  'discount'=>$request->discount[$index],
                         
-                        //  'volume'=>$request->volume[$index],
-                        //  'glass_id'=>$product_glass->id,
-                        //  'client_id'=>$client->id,
-                        //  'created_at'=>date("Y-m-d h:i:sa"),
-                        //  ]);
-                         $payment = new Payment();
-                         $payment->paid = $debt;
-                         $payment->save();
-                         $store_Order_Product->payments()->save($payment);
-                         $type_of_sale = 0;
-                         if($request->order =="retail"){
-                             $product->retail_stoke =  $product->retail_stoke - $request->volume[$index];
-                             $product_glass->update([
-                                 'retail_stoke'=>$product_glass->retail_stoke - $request->quantity[$index]
-                             ]);
-                         }else {
-                             $product->whole_stoke =  $product->whole_stoke - $request->volume[$index];
-                             $type_of_sale = 1;
-                             $product_glass->update([
-                                 'whole_stoke'=>$product_glass->whole_stoke - $request->quantity[$index]
-                             ]);
-                         }
-                         $product->save();
- 
+                         $store_Order_Product= $this->createOrderProduct($request,$index,$order,$product,$product_glass,$client);
+                      
                          
-                        //  $order->total_price=$total_price;
-                         $order->total_price=$total_price;
-                        //  $order->remaining=$remaining;
-                         $order->type_of_sale=$type_of_sale;
-                         $order->save();
+                   
                        
                         
                      }else{
@@ -220,6 +197,46 @@ class ControllerOrder extends Controller
                          return redirect()->back()->withErrors(['error'=>__('الزجاج لا يكفي للكمية المطلوبة')]);
          
                      }
+                 }else{
+                    $store_Order_Product= $this->createOrderProduct($request,$index,$order,$product,null,$client);
+
+                 }
+                 //
+                 
+                 $payment = new Payment();
+                 $payment->paid = $debt;
+                 $payment->save();
+                 $store_Order_Product->payments()->save($payment);
+                 $type_of_sale = 0;
+                 if(in_array($product->category->id,$product_ids)){
+                    if($request->order =="retail"){
+                        $product->retail_stoke =  $product->retail_stoke - $request->volume[$index];
+                        $product_glass->update([
+                            'retail_stoke'=>$product_glass->retail_stoke - $request->quantity[$index]
+                        ]);
+                    }else {
+                        $product->whole_stoke =  $product->whole_stoke - $request->volume[$index];
+                        $type_of_sale = 1;
+                        $product_glass->update([
+                            'whole_stoke'=>$product_glass->whole_stoke - $request->quantity[$index]
+                        ]);
+                    }
+                 }else{
+                    if($request->order =="retail"){
+                        $product->retail_stoke =  $product->retail_stoke - $request->quantity[$index];
+                      
+                    }else {
+                        $product->whole_stoke =  $product->whole_stoke - $request->quantity[$index];
+                        $type_of_sale = 1;
+                      
+                    }
+                 }
+             
+                 $product->save();
+
+                 $order->total_price=$total_price;
+                 $order->type_of_sale=$type_of_sale;
+                 $order->save();
                         
              }else{
                  $order->delete();
@@ -232,6 +249,29 @@ class ControllerOrder extends Controller
          }
       
          
+    }
+    private function createOrderProduct($request,$index,$order,$product,$product_glass=null,$client){
+                        $debt=   $request->paid[$index]-(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
+                        //  $total_price+=(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
+                        $store_Order_Product = new OrderProduct(); 
+                        $store_Order_Product->order_id = $order->id;
+                        $store_Order_Product->product_id = $product->id;
+                        $store_Order_Product->client_id = $client->id;
+                        $store_Order_Product->quantity = $request->quantity[$index];
+                        $store_Order_Product->sale_price = $request->sale_price[$index];
+                        $store_Order_Product->discount = $request->discount[$index];
+                        if($request->volume[$index]!=0)
+                        $store_Order_Product->volume = $request->volume[$index];
+                        else $store_Order_Product->volume =0;
+                        if($product_glass!=null)
+                        $store_Order_Product->glass_id = $product_glass->id;
+                        else  $store_Order_Product->glass_id = 0;
+
+                        if($debt==0)
+                        $store_Order_Product->isDelevery = true;
+                        $store_Order_Product->save();
+                        return $store_Order_Product;
+                      
     }
     public function show_sales(){
         return Datatables::of(OrderProduct::query())

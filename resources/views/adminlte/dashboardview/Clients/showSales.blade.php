@@ -57,7 +57,7 @@
                                     
                                 </td>
                                 <td>
-                                <a  data-id_client="{{$product_sale->clinet_id}}" data-id_order="{{$product_sale->order_id}}" data-id_product="{{$product_sale->product_id}}"   class="btn btn-info showPayments"  >عرض الدفعة</a>
+                                <a  data-id_client="{{$product_sale->client_id}}" data-id_order="{{$product_sale->order_id}}" data-id_product="{{$product_sale->product_id}}"   class="btn btn-info showPayments"  >عرض الدفعة</a>
 
                                     <a  id="delete" class="btn btn-danger "> <i class="fa fa-trash" aria-hidden="true"></i>خذف</a>
 
@@ -197,6 +197,7 @@
             var id_client=$(this).data('id_client');
             var id_order=$(this).data('id_order');
             var id_product=$(this).data('id_product');
+            console.log(id_client);
                         $.ajax({
                         url: '/dashboard/clients/showPayments/'+id_client+'/'+id_order+'/'+id_product,
                         method:'get',

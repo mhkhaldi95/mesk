@@ -33,11 +33,11 @@
                             <div class="box-body">
                             <div class="form-group">
                                     <label for="amount">المبلغ</label>
-                                    <input type="number" class="form-control"   name="amount" id="amount" required value="{{old('stoke')}}"  placeholder="المبلغ">
+                                    <input type="number" class="form-control"   name="amount" id="amount"  value="{{old('stoke')}}"  placeholder="المبلغ">
                                 </div>
                                     <div class="form-group">
                                         <label for="description">الوصف</label>
-                                        <textarea type="text" class="form-control"   name="description" id="description" required  placeholder="الوصف">{{old('description')}}</textarea>
+                                        <textarea type="text" class="form-control"   name="description" id="description"   placeholder="الوصف">{{old('description')}}</textarea>
                                 </div>
                              
                   

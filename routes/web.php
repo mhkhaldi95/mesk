@@ -61,9 +61,10 @@ Route::prefix('dashboard/products')->name('dashboard.products.')->group(function
 
 Route::get('/datatables/clients','ControllerClient@anyData')->name('datatables.clients');//view all clients
 Route::get('/datatables/products','ControllerProduct@anyData')->name('datatables.products');//view all products
-Route::get('/datatables/products','ControllerOrder@show_sales')->name('datatables.show_sales');//view all products
+Route::get('/datatables/show_sales','ControllerOrder@show_sales')->name('datatables.show_sales');//view all products
 Route::get('/Best_selling_products/getdata','ControllerProduct@Best_selling_products_getData')->name('datatables.Best_selling_products_getData');
 Route::get('/Expense/getdata','ControllerUser@getExpense')->name('datatables.getExpense');
+Route::get('/showProducts_order','ControllerOrder@showProducts_order')->name('datatables.showProducts_order');//in create order
 
 
 
@@ -85,6 +86,7 @@ Route::prefix('dashboard/clients')->name('dashboard.clients.')->group(function (
 });
 Route::prefix('dashboard/clients/orders')->name('dashboard.clients.orders.')->group(function (){
     Route::get('/create/{client}','ControllerOrder@create')->name('create');//view
+    Route::get('/create/fetch_data/{client}','ControllerOrder@fetch_data')->name('fetch_data');//oldorder
     Route::get('/edit/{client}/{order}','ControllerOrder@edit')->name('edit');//view
     Route::post('/update/{order}/{client}','ControllerOrder@update')->name('update');
 

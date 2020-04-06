@@ -66,11 +66,11 @@
                                
                                 <div class="form-group">
                                     <label for="stoke">كمية الجملة</label>
-                                    <input type="number" class="form-control"   name="whole_stoke" id="stoke" required value="{{isset($Product)?$Product->stoke:old('stoke')}}"  placeholder="الكمية">
+                                    <input type="number" class="form-control"   name="whole_stoke" id="stoke" required value="{{isset($Product)?$Product->whole_stoke:old('whole_stoke')}}"  placeholder="الكمية">
                                 </div>
                                 <div class="form-group">
                                     <label for="stoke">كمية المفرق</label>
-                                    <input type="number" class="form-control"   name="retail_stoke" id="stoke" required value="{{isset($Product)?$Product->stoke:old('stoke')}}"  placeholder="الكمية">
+                                    <input type="number" class="form-control"   name="retail_stoke" id="stoke" required value="{{isset($Product)?$Product->retail_stoke:old('retail_stoke')}}"  placeholder="الكمية">
                                 </div>
                             </div>
 

@@ -34,7 +34,7 @@
               <p>العطور</p>
             </div>
             <div class="icon">
-              <i class="ion ion-bag"></i>
+            <img src="https://img.icons8.com/color/96/000000/perfume-bottle.png"/>
             </div>
             <a href="{{route('dashboard.products.index')}}" class="small-box-footer">معلومات أكثر <i class="fa fa-arrow-circle-right"></i></a>
           </div>
@@ -88,28 +88,30 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-yellow">
+          <div class="small-box bg-green">
             <div class="inner">
               <h3>{{$sales_count}}</h3>
 
               <p>المبيعات</p>
             </div>
-            <div class="icon">
-              <i class="ion ion-person"></i>
+            <div class="icon" style="position: absolute;top: 5px;">
+
+              <i class="iconify" data-icon="fa-solid:cart-plus" data-inline="false"></i>
             </div>
             <a href="{{route('dashboard.orders.show_sales_view')}}" class="small-box-footer">معلومات أكثر <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-yellow">
+          <div class="small-box bg-red">
             <div class="inner">
               <h3>{{count( $best_sales)}}</h3>
 
               <p>أكثر المنتجات مبيعا</p>
             </div>
             <div class="icon">
-              <i class="ion ion-person"></i>
+
+              <i class="ion ion-pie-graph" ></i>
             </div>
             <a href="{{route('dashboard.products.Best_selling_products')}}" class="small-box-footer">معلومات أكثر <i class="fa fa-arrow-circle-right"></i></a>
           </div>
@@ -123,7 +125,7 @@
               <p>المصروفات</p>
             </div>
             <div class="icon">
-              <i class="ion ion-person"></i>
+            <img src="https://img.icons8.com/wired/80/000000/cost.png"/>
             </div>
             <a href="{{route('dashboard.users.Expenses_view')}}" class="small-box-footer">معلومات أكثر <i class="fa fa-arrow-circle-right"></i></a>
           </div>

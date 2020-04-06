@@ -23,19 +23,12 @@
                 <div class="box box-primary">
                     <div class="box-header">
                         <h3 class="box-title">الأصناف</h3>
-                        @foreach($categories as $category)
-
-                            <div class="form-group">
-                                <input  class="form-control" data-toggle="collapse" href="#category{{$category->id}}"
-                                     role="button" aria-expanded="false" aria-controls="category{{$category->id}}" value="{{$category->name}}" readonly>
-
-                            </div>
+                     
 
 
                         <div class="col">
-                                <div class="collapse multi-collapse" id="category{{$category->id}}">
                                     <div class="card card-body">
-                                        <table class="table table-hover table_category" id="add_order">
+                                        <table class="table table-hover table_products" id="add_order">
                                            
                                             <thead>
                                             <tr>
@@ -48,37 +41,15 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($category->products as $index=>$product)
-                                                <tr id="tr_{{$product->id}}">
-                                                    <td>{{$index+1}}</td>
-                                                    <td>{{$product->name}}</td>
-                                                    <td>{{$product->whole_stoke}}</td>
-                                                    <td>{{$product->retail_stoke}}</td>
-                                                    <!-- <td class="sale_price">{{number_format($product->sale_price,2)}}</td> -->
-                                                    <td>
-                                                     <a id="prodcut{{$product->id}}"  class="btn btn-primary btn-sm add_order" data-name="{{$product->name}}" data-glasses="{{$categories[4]->products}}"    data-id="{{$product->id}}" ><i class="fa fa-plus" aria-hidden="true"></i></a>
-
-                                                    </td>
-
-
-                                                </tr>
-                                            @endforeach
-
+                                        
 
                                             </tbody>
-                                            <tfoot>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                              
-
-                                            </tr>
-                                            </tfoot>
+                                          
                                         </table>
                                     </div>
-                                </div>
+                               
                         </div>
-                            @endforeach
+                       
 
                         </div>
                     <!-- /.box-header -->
@@ -166,76 +137,10 @@
                 <div class="box box-primary">
                     <div class="box-header">
                         <h3 class="box-title">الطلبيات السابقة</h3>
-                        @foreach($orders as $order)
-                            <div class="form-group">
-                                <a class="form-control" data-toggle="collapse" href="#{{$order->created_at->format('d-m-Y-s')}}" role="button" aria-expanded="false" aria-controls="order_old{{$order->id}}"  readonly="">{{$order->created_at->format('Y-m-d h:i:s')}}</a>
-
-                            </div>
-
-
-                      <div class="col">
-                                <div class="collapse multi-collapse" id="{{$order->created_at->format('d-m-Y-s')}}">
-                                    <div class="card card-body">
-                                        <table class="table table-hover" id="add_order">
-                                        @php
-                                            $total_paid = 0;
-                                        @endphp
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>الاسم</th>
-                                                <th>الكمية</th>
-                                                <th>المبلغ للدفع</th>
-                                                <th>المبلغ المدفوع</th>
-                                            </tr>
-                                            </thead>
-                                          
-                                            <tbody>
-                                          
-                                            
-                                            @foreach($order->products as $index=>$product)
-
-                                                    <tr id="tr_{{$index+1}}">
-                                                    <td>{{$index+1}}</td>
-                                                    <td>{{$product->name}}</td>
-                                                    <td>{{$product->pivot->quantity}}</td>
-                                                    <td class="">{{number_format((($product->pivot->sale_price*$product->pivot->quantity)-$product->pivot->discount),2)}}</td>
-                                                    <td class="">{{number_format((($product->pivot->sale_price*$product->pivot->quantity)-$product->pivot->discount)+1,2)}}</td>
-
-                
-
-
-                                                </tr>
-                                                @endforeach
-                                               
-                                                
-                                            
-
-                                            </tbody>
-                                            @php
-                                            $total_paid += 1
-                                             @endphp
-                                            <tfoot>
-                                            <tr>
-                                                <th><h4> الدفع الاجمالي</h4></th>
-                                                <th class="total" >{{$order->total_price}}</th>
-                                            </tr>  
-                                            <tr>
-                                                <th><h4>  الباقي </h4></th>
-                                                <th class="total_paidd">{{$total_paid==0?0:-1*$total_paid}}</th>
-                                            </tr>   
-                                            </tfoot>
-                                        </table>
-                                        
-
-                                    </div>
-                                </div>
-                            </div>
-                            
-                 
-
-                            @endforeach
-                            {{ $orders->links() }}
+                        <div id="old_orders">
+                        @include('adminlte.dashboardview.Clients.Orders.load')
+                        </div>
+                          
                     
                     </div>
                   
@@ -257,13 +162,25 @@
 <script>
  var total_paidd = 0;
  $(document).ready(function() {
-        $('.table_category').DataTable( {
+        $('.table_products').DataTable( {
             "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Arabic.json"
                 },
             'pagingType':'full_numbers',
             'lengthMenu':[[6,10,20,30,40,-1],[6,10,20,30,40,'الكل']],
-        });
+            processing: true,
+serverSide: true,
+ajax: '{!! route('datatables.showProducts_order') !!}',
+columns: [
+{ data: 'id', name: 'id' },
+{ data: 'name', name: 'name' },
+{ data: 'whole_stoke', name: 'whole_stoke' },
+{ data: 'retail_stoke', name: 'retail_stoke' },
+{ data: 'action', name: 'action' },
+
+
+]
+});
         $('.table_old_category').DataTable( {
             "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Arabic.json"
@@ -271,20 +188,49 @@
             'pagingType':'full_numbers',
             'lengthMenu':[[6,10,20,30,40,-1],[6,10,20,30,40,'الكل']],
         });
+
+//----------------------------
+//ajax pagination
+        var client_id =$('#client_id').data('client_id');  
+   $(document).on('click', '.pagination a', function(e) {
+        e.preventDefault();
+
+        var page = $(this).attr('href').split('page=')[1];  
+        fetch_data(page);
+    });
+    function  fetch_data(page) {
+       
+        $.ajax({
+            url : '/dashboard/clients/orders/create/fetch_data/'+client_id+'?page='+page,
+            success:function (data) {
+            $('#old_orders').html(data);  
+        },
+        
+        
+    });
+}
+
+
+
     });
     $(document).ready(function () {
 
-$('.add_order').on("click",function(e){
+  $(document).on("click",'.add_product',function(e){
     e.preventDefault();
     var name = $(this).data('name');
-    var id = $(this).data('id');
-    var glasses = $(this).data('glasses');
-    var options="";
-   
-    for(var i=0 ; i<glasses.length;i++ ){
-        options+='<option value="'+glasses[i].id+'">'+glasses[i].name+'</option>';
-    }
-
+    var id = $(this).data('value');
+    var options = '<option value="'+0+'"></option>';
+    $.ajax({
+            method:'GET',
+            url: "/dashboard/categories/index",
+            data:{body:'',_token:'{{csrf_token()}}'},
+            success: function (response) {
+                for(var i=0 ; i<response.glasses.length;i++ ){
+                     options += `<option value="${response.glasses[i].id}">${response.glasses[i].name}</option>`;
+                }
+             
+  
+            
     var html =`
     <tr>
           <input type="hidden" name="product_ids[]" value="${id}">
@@ -295,19 +241,10 @@ $('.add_order').on("click",function(e){
         <td><input type="number" name="paid[]" step="0.50" id="paid${id}"  class="paid" style='width: 100%;height: 42px;';  value="0"> </td>
         <td><input type="number" name="volume[]" step="0.10"  class="volume" style='width: 80%;height: 42px;';  value="0"> </td>
         <td>
-       
-               
-                <select class="form-control" name="glass_ids[]" style="width: 250%;height: 100%;" >
+            <select class="form-control" name="glass_ids[]" style="width: 250%;height: 100%;" >
                 ${options}
-                </select>
-             
+            </select>
         </td>
-       
-       
-       
-       
-       
- 
         <td><button data-id="${id}" class="btn btn-danger btn-sm remove_order"style="margin-right: 60px;"><i class="fa fa-trash"></i> </button></td>
     </tr>
     `;
@@ -315,15 +252,13 @@ $('.add_order').on("click",function(e){
 
     $('.orders_table tbody').append(html);
     calculate_totalPrice()
+    
+    }
+    })
+    
+   
 });
-// $(document).on('keyup change','.quantity',function (e) {
-//     e.preventDefault();
-//     var Quantity =parseFloat($(this).val());
 
-//     var sale_price =$(this).data('price').replace(/,/g,'');
-//     $(this).closest('tr').find('.price').html($.number((Quantity*sale_price),2));
-//     calculate_totalPrice()
-// });
 
 $(document).on('keyup change','.discount',function (e) {
     e.preventDefault();

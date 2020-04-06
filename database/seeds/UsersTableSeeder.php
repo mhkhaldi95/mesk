@@ -17,13 +17,16 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $name = "";
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 7; $i++) {
             switch($i){
-                case 1 :$name = "رجال";break;
+                case 1 :$name = "رجالي";break;
                 case 2 :$name = "حريمي";break;
-                case 3 :$name = "بخور";break;
+                case 3 :$name = "أطفال";break;
                 case 4 :$name = "كحول";break;
-                case 5 :$name = "زجاج";break;
+                case 5 :$name = "بخور";break;
+                case 6 :$name = "زجاج";break;
+                case 7 :$name = "مخمريات";break;
+
 
 
             }
@@ -37,13 +40,13 @@ class UsersTableSeeder extends Seeder
 
      
 
-      for ($i = 1; $i <= 2000; $i++) {
+      for ($i = 1; $i <= 800; $i++) {
           
             Product::create([
                 'name' => "product" .$i,
 
                 'sequenceNo' => '00'.$i,
-                'category_id' => rand(1,2),
+                'category_id' => rand(1,3),
                 'whole_stoke' => 100,
                 'retail_stoke' => 100,
 
@@ -51,6 +54,20 @@ class UsersTableSeeder extends Seeder
 
                 ]);
   }
+  for ($i = 10000; $i <= 10010; $i++) {
+          
+    Product::create([
+        'name' => "product" .$i,
+
+        'sequenceNo' => '00'.$i,
+        'category_id' => rand(5,7),
+        'whole_stoke' => 100,
+        'retail_stoke' => 100,
+
+        'purchase_price' => 5,
+
+        ]);
+}
   Product::create([
     'name' => 'عروس',
 

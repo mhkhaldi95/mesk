@@ -21,7 +21,7 @@
 
 
 
-
+<script src="https://code.iconify.design/1/1.0.5/iconify.min.js"></script>
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 <link rel="stylesheet" href="{{asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
 
