@@ -48,9 +48,14 @@
                                     <input type="text" class="form-control"   name="phone[]"   value="{{isset($client)?$client->phone[1]:''}}"  placeholder="رقم الهاتف الثاني">
                                 </div>
                                 <div class="form-group">
+                                    <label for="phone2">تاريخ الميلاد</label>
+                                    <input type="date" class="form-control"   name="BOD"   value="{{isset($client)?$client->BOD:''}}"  placeholder="تاريخ الميلاد">
+                                </div>
+                                <div class="form-group">
                                     <label for="address">العنوان</label>
                                     <textarea type="text" class="form-control"   name="address" id="address"    placeholder="العنوان">{{isset($client)?$client->address:''}}</textarea>
                                 </div>
+
                             </div>
 
 

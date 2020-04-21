@@ -40,7 +40,7 @@
                         <tbody>
 
                         @foreach($products_sales as $index=>$product_sale)
-                            <tr id="tr_{{$product_sale->id}}">
+                            <tr id="tr_{{$product_sale->id}}" class="{{(-$product_sale->payments()->sum('paid'))==0?'alert-success':'alert-warning'}}">
                                 <td>{{$index+1}}</td>
                                 <td>{{$product_sale->product->name}}</td>
                                 <td>{{$product_sale->quantity}}</td>
@@ -49,7 +49,13 @@
                                 <td>{{(($product_sale->quantity*$product_sale->sale_price)-$product_sale->discount)}}</td>
                                 <td>{{(($product_sale->quantity*$product_sale->sale_price)-$product_sale->discount)+$product_sale->payments()->sum('paid')}}</td>
                                 <td>{{-$product_sale->payments()->sum('paid')}}</td>
-                                <td>{{$glasses[$index]->name}}</td>
+                                <td>
+                                @if($glasses[$index]==null)
+                                -
+                                @else
+                                {{$glasses[$index]->name}}
+                                @endif
+                                </td>
                                 <td>{{$product_sale->created_at}}</td>
 
                                 
@@ -59,10 +65,10 @@
                                 <td>
                                 <a  data-id_client="{{$product_sale->client_id}}" data-id_order="{{$product_sale->order_id}}" data-id_product="{{$product_sale->product_id}}"   class="btn btn-info showPayments"  >عرض الدفعة</a>
 
-                                    <a  id="delete" class="btn btn-danger "> <i class="fa fa-trash" aria-hidden="true"></i>خذف</a>
+                                    <!-- <a  id="delete" class="btn btn-danger "> <i class="fa fa-trash" aria-hidden="true"></i>خذف</a> -->
 
                     {{--                                                <a data-value="" class="btn btn-info editu" data-toggle="modal" data-target="#editDebtor" href=""><i class="fa fa-edit" aria-hidden="true"></i></a>--}}
-                                            <a  class="btn btn-info editu"  ><i class="fa fa-edit" aria-hidden="true"></i>تعديل</a>
+                                            <!-- <a  class="btn btn-info editu"  ><i class="fa fa-edit" aria-hidden="true"></i>تعديل</a> -->
 
 
                                 </td>

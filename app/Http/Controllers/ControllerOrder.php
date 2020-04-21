@@ -81,13 +81,10 @@ class ControllerOrder extends Controller
     }
     public function edit(Client $client,Order $order)
     {
-        $total_paid = 0;
-        $total_debt = 0;
+     
         $categories = Category::all();
-        foreach($order->products as $product){
-            // $total_debt +=$product->pivot->paid;
-        }
-        return view('adminlte.dashboardview.Clients.Orders.edit',compact('client','order','categories','total_debt'));
+        
+        return view('adminlte.dashboardview.Clients.Orders.edit',compact('client','order','categories'));
 
     }
     public function update(Request $request,Order $order,Client $client)
@@ -97,7 +94,6 @@ class ControllerOrder extends Controller
         $this->destroyForUpdate($order);
        
         $this->attach_order( $request, $client);
-        return redirect()->route('dashboard.orders.index')->with('Success', 'تم التعديل بنجاح'); 
 
 
       
@@ -165,17 +161,11 @@ class ControllerOrder extends Controller
         
     }
     public function attach_order($request,$client){
-      
-      
-        // $total_paid= 0;
         $total_price= 0;
         $product_ids = [1,2,3,4];
-
         $order= $client->orders()->create([]);//ر32
          foreach ($request->product_ids as $index=>$product_id){
-             
-            $product = Product::find($product_id);
-           
+           $product = Product::find($product_id);
             $stoke_perfume =$request->order =="retail"?$product->retail_stoke:$product->whole_stoke;
              if($request->volume[$index]<=$stoke_perfume){
                 $debt=   $request->paid[$index]-(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
@@ -183,26 +173,23 @@ class ControllerOrder extends Controller
                 $store_Order_Product=null;
                  if(in_array($product->category->id,$product_ids)){
                     $product_glass = Product::find($request->glass_ids[$index]);
+                    if($product_glass!=null)
                     $stoke_glass =$request->order =="retail"?$product_glass->retail_stoke:$product_glass->whole_stoke;
-                     if($request->quantity[$index]<=$stoke_glass){
+                    else{
+                        
+                        $order->delete();
+                        return redirect()->back()->withErrors(['error'=>__(' اختر نوع الزجاجة')]);
+                  } 
+                    if($request->quantity[$index]<=$stoke_glass){
                         
                          $store_Order_Product= $this->createOrderProduct($request,$index,$order,$product,$product_glass,$client);
-                      
-                         
-                   
-                       
-                        
-                     }else{
+                    }else{
                          $order->delete();
                          return redirect()->back()->withErrors(['error'=>__('الزجاج لا يكفي للكمية المطلوبة')]);
-         
-                     }
+                    }
                  }else{
                     $store_Order_Product= $this->createOrderProduct($request,$index,$order,$product,null,$client);
-
                  }
-                 //
-                 
                  $payment = new Payment();
                  $payment->paid = $debt;
                  $payment->save();
@@ -248,7 +235,8 @@ class ControllerOrder extends Controller
            
          }
       
-         
+         return redirect()->route('dashboard.orders.index')->with('Success', 'تم التعديل بنجاح'); 
+   
     }
     private function createOrderProduct($request,$index,$order,$product,$product_glass=null,$client){
                         $debt=   $request->paid[$index]-(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
@@ -274,7 +262,7 @@ class ControllerOrder extends Controller
                       
     }
     public function show_sales(){
-        return Datatables::of(OrderProduct::query())
+        return Datatables::of(OrderProduct::query()->latest())
         
         ->setRowId('tr_{{$id}}') 
         ->setRowClass(function($product) {
@@ -292,7 +280,9 @@ class ControllerOrder extends Controller
         })
         ->editColumn('glass_id',function($product) {
              $glass = Product::find($product->glass_id);
+             if($glass!=null)
              return $glass->name;
+             else return '-';
         
         })
         ->addColumn('total_price',function($product) {

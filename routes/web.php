@@ -11,8 +11,10 @@
 |
 */
 
-use App\Prخduct;
+use App\Client;
+use App\Product;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\View;
 
 Route::get('/','HomeController@index')->name('welcome');
 Route::get('/admin/change/lang/{lang}',['as'=>'lang','uses'=>'ControllerUser@change']);

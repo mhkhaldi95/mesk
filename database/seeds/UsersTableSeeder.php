@@ -40,7 +40,7 @@ class UsersTableSeeder extends Seeder
 
      
 
-      for ($i = 1; $i <= 800; $i++) {
+      for ($i = 1; $i <= 50; $i++) {
           
             Product::create([
                 'name' => "product" .$i,
@@ -79,7 +79,7 @@ class UsersTableSeeder extends Seeder
     'purchase_price' => '2',
 
     ]);
-  for ($i = 1; $i <= 2000; $i++) {
+  for ($i = 1; $i <= 10; $i++) {
       Client::create([
           'name' => "Client" .$i,
             'address'=>'100'.$i,

@@ -37,9 +37,10 @@ class HomeController extends Controller
         $categories_count = Category::all()->count();
         $sales = DB::table('orders')
                      ->select(DB::raw('YEAR(created_at) as year,MONTH(created_at) as month,SUM(total_price) as total'))
-                     ->groupBy('month')->get();
+                     ->where('created_at','>','2020-00-00')
+                     ->groupBy('month','year')->get();
         
-
+       
         $Orders_Products = OrderProduct::where('isDelevery',0)->get();
         $client_ids= $Orders_Products->pluck('client_id')->toArray();
         $client_ids = array_unique($client_ids);

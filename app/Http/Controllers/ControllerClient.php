@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Yajra\Datatables\Datatables;
 use App\Client;
 use App\Order;
@@ -14,11 +15,9 @@ class ControllerClient extends Controller
 {
     public function __construct()
     {
-//        $this->middleware(['permission:read_users'])->only('index');
-//        $this->middleware(['permission:create_users'])->only('createview');
-//        $this->middleware(['permission:delete_users'])->only('delete');
-//        $this->middleware(['permission:update_users'])->only('editview');
+
         $this->middleware(['auth']);
+
     }
     public function anyData()
     {
@@ -50,8 +49,8 @@ class ControllerClient extends Controller
 
     public function index(Request $request)
     {
-        
-        
+
+
         return view('adminlte.dashboardview.Clients.index');
         //
     }
@@ -62,6 +61,7 @@ class ControllerClient extends Controller
     }
     public function store(Request $request)
     {
+
 
         if($request->phone[1]!=null)
             $this->rule+=['phone.1'=>'numeric'];

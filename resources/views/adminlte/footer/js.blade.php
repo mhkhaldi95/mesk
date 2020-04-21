@@ -14,6 +14,7 @@
 <script src="{{asset('bower_components/raphael/raphael.min.js')}}"></script>
 <script src="{{asset('bower_components/morris.js/morris.min.js')}}"></script>
 <script src="{{asset('bower_components/chart.js/Chart.js')}}"></script>
+
 <script src="{{asset('/plugins/ckeditor4/ckeditor/ckeditor.js')}}"></script>
 <script src="{{asset('plugins/jquery-number-master/jquery.number.js')}}"></script>
 <script src="{{asset('js/printThis.js')}}"></script>
@@ -21,7 +22,7 @@
 <script>
     $('#Error').delay(1200).fadeOut('slow');
     $('#Success').delay(1200).fadeOut('slow');
-
+   //Date picker
+ 
 </script>
-
 

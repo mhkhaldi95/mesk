@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     protected $fillable = [
-        'name', 'address', 'phone',
+        'name', 'address', 'phone','BOD'
     ];
     protected  $casts =['phone'=>'array',];
     public function orders(){
@@ -16,6 +16,11 @@ class Client extends Model
     }
     public function debts(){//products sales
         return $this->hasMany(OrderProduct::class,'client_id','id');
+    }
+    protected $appends=['first_name'];
+    public function getFirstNameAttribute(){
+       $name =  explode(" ",$this->name) ;
+       return $name[0];
     }
         // public function products(){
         // return $this->belongsToMany(Product::class,'product_client');
