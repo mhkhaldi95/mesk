@@ -74,6 +74,8 @@ Route::get('/showProducts_order','ControllerOrder@showProducts_order')->name('da
 Route::prefix('dashboard/clients')->name('dashboard.clients.')->group(function (){
 
    Route::get('/index','ControllerClient@index')->name('index');
+   Route::get('/delivery/points/{client}','ControllerClient@delivery_points')->name('delivery_points');
+
     Route::get('/createview','ControllerClient@create')->name('create');//view
     Route::post('/store','ControllerClient@store')->name('store');//modal
     Route::post('/delete/{id?}','ControllerClient@destroy')->name('destroy');

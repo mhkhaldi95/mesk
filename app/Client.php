@@ -17,6 +17,9 @@ class Client extends Model
     public function debts(){//products sales
         return $this->hasMany(OrderProduct::class,'client_id','id');
     }
+    public function points(){//products sales
+        return $this->hasOne(Point::class);
+    }
     protected $appends=['first_name'];
     public function getFirstNameAttribute(){
        $name =  explode(" ",$this->name) ;

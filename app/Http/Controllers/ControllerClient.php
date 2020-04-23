@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Point;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Yajra\Datatables\Datatables;
@@ -53,6 +54,14 @@ class ControllerClient extends Controller
 
         return view('adminlte.dashboardview.Clients.index');
         //
+    }
+    public function delivery_points(Client $client){
+        $pointObj = Point::where('client_id',$client->id)->first();
+        $pointObj->point = $pointObj->point%150;
+        $pointObj->save();
+        return back();
+
+
     }
     public function create()
     {

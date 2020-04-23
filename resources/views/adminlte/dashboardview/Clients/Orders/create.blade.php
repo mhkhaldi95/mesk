@@ -18,6 +18,25 @@
         </section>
 
     <div class="content">
+
+        @if($client->points!=null &&$client->points->point>=150)
+        <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header"style="background-color: #6394bf;" >
+                    <h3 class="box-title">
+                        @for($i=1;$i<=$client->points->point/150;$i++)
+                        <i class="fa fa-star" aria-hidden="true" style="color: #ecd495;"></i>
+                            @endfor
+                    </h3>
+                    <a href="{{route('dashboard.clients.delivery_points',[$client->id])}}" class="btn btn-primary" style="float: left; background-color: #c4e4ff;color: black;">تسليم</a>
+
+                </div>
+
+            </div>
+        </div>
+        </div>
+        @endif
         <div class="row">
             <div class="col-md-5">
                 <div class="box box-primary">

@@ -5,6 +5,7 @@ use App\Category;
 use App\Client;
 use App\Order;
 use App\OrderProduct;
+use App\Point;
 use App\Product;
 use App\Payment;
 use Illuminate\Http\Request;
@@ -162,6 +163,7 @@ class ControllerOrder extends Controller
     }
     public function attach_order($request,$client){
         $total_price= 0;
+        $points=0;
         $product_ids = [1,2,3,4];
         $order= $client->orders()->create([]);//ر32
          foreach ($request->product_ids as $index=>$product_id){
@@ -170,7 +172,9 @@ class ControllerOrder extends Controller
              if($request->volume[$index]<=$stoke_perfume){
                 $debt=   $request->paid[$index]-(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
                 $total_price+=(($request->sale_price[$index]*$request->quantity[$index])-$request->discount[$index]);
-                $store_Order_Product=null;
+                 $points+=$request->paid[$index];
+
+                 $store_Order_Product=null;
                  if(in_array($product->category->id,$product_ids)){
                     $product_glass = Product::find($request->glass_ids[$index]);
                     if($product_glass!=null)
@@ -193,6 +197,7 @@ class ControllerOrder extends Controller
                  $payment = new Payment();
                  $payment->paid = $debt;
                  $payment->save();
+
                  $store_Order_Product->payments()->save($payment);
                  $type_of_sale = 0;
                  if(in_array($product->category->id,$product_ids)){
@@ -234,7 +239,18 @@ class ControllerOrder extends Controller
              
            
          }
-      
+        if($client->points==null){
+
+            $pointObj = new Point();
+            $pointObj->point = $points;
+            $pointObj->save();
+            $client->points()->save($pointObj);
+        }else{
+            $pointObj = Point::where('client_id',$client->id)->first();
+          $pointObj->point += $points;
+            $pointObj->save();
+        }
+
          return redirect()->route('dashboard.orders.index')->with('Success', 'تم التعديل بنجاح'); 
    
     }
