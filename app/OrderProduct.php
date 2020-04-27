@@ -19,5 +19,20 @@ class OrderProduct extends Model
     public function product(){
         return $this->hasOne(Product::class,'id','product_id');
     }
+    protected $appends=['profit'];
+
+    public function getImagePathAttribute(){
+        return asset('/uploads/image_product/'.$this->image);
+    }
+    public function getProfitAttribute(){
+        $product = $this->product;
+        $glass = Product::find($this->glass_id);
+
+        $cohol = Product::where('name','كحول')->first();
+
+        $profit =(( $this->sale_price-($this->volume*$product->purchase_price))-($glass->purchase_price*$this->quantity))-($cohol->purchase_price*(2*$this->volume))-$this->discount;
+
+        return number_format($profit,'2');
+    }
     //
 }

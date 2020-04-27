@@ -34,11 +34,12 @@
                                 <th>الكمية </th>
                                 <th>سعر البيع </th>
                                 <th>الخصم</th>
-                                <th> السعر الاجمالي </th>
-                                <th> المبلغ المدفوع  </th>
-                                <th> المبلغ المبتقي  </th> 
                                 <th>كمية الزيت</th>
                                 <th>نوع الزجاجة</th>
+                                <th> السعر الاجمالي </th>
+                                <th> المبلغ المدفوع  </th>
+                                <th> المبلغ المبتقي  </th>
+                                <th>  الربح  </th>
                                 <th>تاريخ الشراء</th>
 
                             </tr>
@@ -92,11 +93,13 @@ columns: [
 { data: 'quantity', name: 'quantity' },
 { data: 'sale_price', name: 'sale_price' },
 { data: 'discount', name: 'discount' },
+    { data: 'volume', name: 'volume' },
+    { data: 'glass_id', name: 'glass_id' },
 { data: 'total_price', name: 'total_price' },
 { data: 'total_paid', name: 'total_paid' },
 { data: 'debt', name: 'debt' },
-{ data: 'volume', name: 'volume' },
-{ data: 'glass_id', name: 'glass_id' },
+{ data: 'profit', name: 'profit' },
+
 { data: 'created_at', name: 'created_at' },
 
 

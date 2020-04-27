@@ -162,6 +162,7 @@ class ControllerOrder extends Controller
         
     }
     public function attach_order($request,$client){
+
         $total_price= 0;
         $points=0;
         $product_ids = [1,2,3,4];
@@ -200,15 +201,25 @@ class ControllerOrder extends Controller
 
                  $store_Order_Product->payments()->save($payment);
                  $type_of_sale = 0;
+                 $cohol = Product::where('category_id',4)->first();
+
                  if(in_array($product->category->id,$product_ids)){
                     if($request->order =="retail"){
                         $product->retail_stoke =  $product->retail_stoke - $request->volume[$index];
+                       if($product->category->id != $cohol->category_id){
+                           $cohol->update([
+                               'retail_stoke'=>$cohol->retail_stoke - $request->volume[$index]*2
+                           ]);
+                       }
+
                         $product_glass->update([
                             'retail_stoke'=>$product_glass->retail_stoke - $request->quantity[$index]
                         ]);
                     }else {
+
                         $product->whole_stoke =  $product->whole_stoke - $request->volume[$index];
                         $type_of_sale = 1;
+
                         $product_glass->update([
                             'whole_stoke'=>$product_glass->whole_stoke - $request->quantity[$index]
                         ]);
@@ -314,9 +325,14 @@ class ControllerOrder extends Controller
             return $product->payments()->sum('paid');
         
         })
+         ->addColumn('profit',function($product) {
+                return $product->profit;
+
+            })
         ->toJson();
     }
     public function show_sales_view(){
+//        dd(OrderProduct::find(1)->profit);
         return view('adminlte.dashboardview.Orders.show_sales');
 
     }

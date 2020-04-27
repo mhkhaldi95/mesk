@@ -5,7 +5,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>LT</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Mesh</b>Aljenan</span>
+        <span class="logo-lg"><b>Misk</b>Aljenan</span>
     </a>
 
     <!-- Header Navbar -->
@@ -28,7 +28,7 @@
                 <li class="dropdown notifications-menu">
                     <!-- Menu toggle button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o"></i>
+                        <i > <img src="{{asset('BOD.png')}}" width="20px" height="20px"></i>
                         <span class="label label-warning">{{count($clientsDOB)==0?'':count($clientsDOB)}}</span>
                     </a>
                     <ul class="dropdown-menu">
@@ -39,10 +39,14 @@
                                 <li><!-- start notification -->
                                     @foreach($clientsDOB as $client)
                                     <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> {{$client->first_name}}
-                                        @foreach($client->phone as $index=>$phone)
-                                            <span>{{$phone}}</span>{{$index==0?' - ':''}}
+                                        <i class="fa fa-users text-aqua"></i>
+                                        @if(is_array($client->phone))
+                                            @foreach($client->phone as $index=>$phone)
+                                                <span>{{$phone}}</span>{{$index==0?' - ':''}}
                                             @endforeach
+                                            @else  <span>{{$client->phone}}</span>
+                                        @endif
+                                        {{$client->first_name}}
                                     </a>
                                         @endforeach
                                 </li><!-- end notification -->
@@ -51,7 +55,37 @@
 {{--                        <li class="footer"><a href="#">View all</a></li>--}}
                     </ul>
                 </li>
-                <!-- Tasks Menu -->
+                <li class="dropdown notifications-menu" >
+                    <!-- Menu toggle button -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i > <img src="{{asset('perfume.png')}}" width="20px" height="20px"></i>
+                        <span class="label label-warning">{{count($products_whole_stoke)+count($products_retail_stoke)==0?'':count($products_whole_stoke)+count($products_retail_stoke)}}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header">لديك {{count($products_whole_stoke)+count($products_retail_stoke)}}اشعار</li>
+                        <li>
+                            <!-- Inner Menu: contains the notifications -->
+                            <ul class="menu">
+                                <li><!-- start notification -->
+                                    @foreach($products_retail_stoke as $product)
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> {{$product->name}}
+                                            <span>&nbsp;&nbsp;مفرق :  {{$product->retail_stoke}} مليلتر </span>
+                                        </a>
+                                    @endforeach
+                                    @foreach($products_whole_stoke as $product)
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> {{$product->name}}
+                                            <span>&nbsp;&nbsp;جملة :  {{$product->whole_stoke}} مليلتر </span>
+                                        </a>
+                                    @endforeach
+
+                                </li><!-- end notification -->
+                            </ul>
+                        </li>
+                        {{--                        <li class="footer"><a href="#">View all</a></li>--}}
+                    </ul>
+                </li>
 
                 <!-- User Account Menu -->
                 <li class="dropdown user user-menu">

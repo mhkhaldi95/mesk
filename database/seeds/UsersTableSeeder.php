@@ -47,13 +47,24 @@ class UsersTableSeeder extends Seeder
 
                 'sequenceNo' => '00'.$i,
                 'category_id' => rand(1,3),
-                'whole_stoke' => 100,
-                'retail_stoke' => 100,
+                'whole_stoke' => rand(100,2000),
+                'retail_stoke' => rand(100,2000),
 
-                'purchase_price' => 5,
+                'purchase_price' => 0.4,
 
                 ]);
   }
+        Product::create([
+            'name' => 'كحول',
+
+            'sequenceNo' => '00'.$i,
+            'category_id' =>4,
+            'whole_stoke' => rand(1000,2000),
+            'retail_stoke' => rand(1000,2000),
+
+            'purchase_price' => 0.2,
+
+        ]);
   for ($i = 10000; $i <= 10010; $i++) {
           
     Product::create([
@@ -64,7 +75,7 @@ class UsersTableSeeder extends Seeder
         'whole_stoke' => 100,
         'retail_stoke' => 100,
 
-        'purchase_price' => 5,
+        'purchase_price' => 1,
 
         ]);
 }
@@ -76,7 +87,7 @@ class UsersTableSeeder extends Seeder
     'whole_stoke' => 100,
     'retail_stoke' => 100,
 
-    'purchase_price' => '2',
+    'purchase_price' => '1',
 
     ]);
   for ($i = 1; $i <= 10; $i++) {
