@@ -29,8 +29,16 @@ class OrderProduct extends Model
         $glass = Product::find($this->glass_id);
 
         $cohol = Product::where('name','كحول')->first();
+        if($product->category_id<4){
+            $profit =(( $this->sale_price-($this->volume*$product->purchase_price))-($glass->purchase_price*$this->quantity))
+                -($cohol->purchase_price*(2*$this->volume))-$this->discount;
+        }else if($product->category_id==4){
+            $profit =(( $this->sale_price-($this->volume*$product->purchase_price))-($glass->purchase_price*$this->quantity))
+               -$this->discount;
+        }else{
+            $profit =(( $this->sale_price-($this->quantity*$product->purchase_price))-$this->discount);
+        }
 
-        $profit =(( $this->sale_price-($this->volume*$product->purchase_price))-($glass->purchase_price*$this->quantity))-($cohol->purchase_price*(2*$this->volume))-$this->discount;
 
         return number_format($profit,'2');
     }
