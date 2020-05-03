@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SellerOrder;
 use Illuminate\Http\Request;
 use App\Client;
 use App\Product;
@@ -31,6 +32,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $seller_orders = SellerOrder::all()->count();
         $products_count = Product::all()->count();
         $clients_count = Client::all()->count();
         $Debtors=[];
@@ -55,6 +57,6 @@ class HomeController extends Controller
         ->orderBy('products.id','DESC')->get();  
         $expenses_count = Expense::all()->count();      
 
-        return view('adminlte.dashboardview.test',compact('Debtors','best_sales','expenses_count','products_count','sales_count','clients_count','categories_count','sales'));
+        return view('adminlte.dashboardview.test',compact('Debtors','best_sales','expenses_count','products_count','sales_count','clients_count','categories_count','sales','seller_orders'));
     }
 }

@@ -63,7 +63,7 @@
                                 <td>{{is_array($Debtor->phone)?implode('-', array_filter($Debtor->phone)):$Debtor->phone}}</td>
                                 <td>{{$Debtor->address}}</td>
                                 <td><input type="number" readonly name="debt" step="0.50" id="debt{{$Debtor->id}}"  class="debt" style='width: 60%;height: 42px;'  value="{{$client_debts[$index]}}"> </td>
-                                <td><input type="number" name="refund" step="0.50" min="0"   class="refund" style='width: 60%;height: 42px;'  value="0"> </td>
+                                <td><input type="number" name="refund" step="0.50" min="0"data-debt="{{$client_debts[$index]}}"   class="refund" style='width: 60%;height: 42px;'  value="0"> </td>
 
 
                                 <td>
@@ -122,4 +122,19 @@
 
 
 @endsection
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $(document).on('keyup change','.refund',function (e) {
+                e.preventDefault();
+                var debt =$(this).data('debt');
+                var value =parseFloat($(this).val());
 
+                if(value >(-debt)){
+                    $('.refund').val(-debt);
+                }
+
+            });
+        });
+    </script>
+@endsection

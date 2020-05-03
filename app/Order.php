@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable=['total','type_of_sale'];
+    protected $fillable=['total_price','type_of_sale'];
     public function clients(){
         return $this->hasOne(Client::class,'id','client_id');
     }

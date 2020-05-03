@@ -130,6 +130,22 @@
             <a href="{{route('dashboard.users.Expenses_view')}}" class="small-box-footer">معلومات أكثر <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+
+          <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-aqua">
+                  <div class="inner">
+                      <h3>{{$seller_orders}}</h3>
+
+                      <p>طلبيات التجار</p>
+                  </div>
+                  <div class="icon">
+                      <i class="fa fa-shopping-cart"></i>
+                  </div>
+                  <a href="{{route('dashboard.sellers.orders.index')}}" class="small-box-footer">معلومات أكثر <i class="fa fa-arrow-circle-right"></i></a>
+
+              </div>
+          </div>
       </div>
       <!-- /.row -->
       <!-- Main row -->

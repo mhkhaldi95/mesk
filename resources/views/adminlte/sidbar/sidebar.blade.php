@@ -18,14 +18,18 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
            @if(auth()->user()->hasPermission('read_users'))
-            <li class="header"><a href="{{route('dashboard.users.index')}}" ><i class="fa fa-th"></i>المستخدون</a></li>
+            <li class="header"><a href="{{route('dashboard.users.index')}}" ><i class="fa fa-th"></i>المسؤول</a></li>
             @endif
+               @if(auth()->user()->hasPermission('read_clients'))
+                   <li class="header"><a href="{{route('dashboard.clients.index')}}" ><i class="fa fa-th"></i>الزبون</a></li>
+               @endif
+
+                   <li class="header"><a href="{{route('dashboard.sellers.index')}}" ><i class="fa fa-th"></i>التجار</a></li>
+
             @if(auth()->user()->hasPermission('read_categories'))
                 <li class="header"><a href="{{route('dashboard.categories.index')}}" ><i class="fa fa-th"></i>الأصناف</a></li>
             @endif
-            @if(auth()->user()->hasPermission('read_clients'))
-                <li class="header"><a href="{{route('dashboard.clients.index')}}" ><i class="fa fa-th"></i>الزبون</a></li>
-            @endif
+
             @if(auth()->user()->hasPermission('read_products'))
                 <li class="header"><a href="{{route('dashboard.products.index')}}" ><i class="fa fa-th"></i>العطور</a></li>
             @endif

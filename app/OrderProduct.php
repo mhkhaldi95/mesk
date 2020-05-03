@@ -30,13 +30,13 @@ class OrderProduct extends Model
 
         $cohol = Product::where('name','كحول')->first();
         if($product->category_id<4){
-            $profit =(( $this->sale_price-($this->volume*$product->purchase_price))-($glass->purchase_price*$this->quantity))
-                -($cohol->purchase_price*(2*$this->volume))-$this->discount;
+            $profit =(($this->quantity*$this->sale_price)-$this->discount)
+                -(($this->volume*$product->purchase_price)+($glass->purchase_price*$this->quantity)+($cohol->purchase_price*(2*$this->volume)));
         }else if($product->category_id==4){
-            $profit =(( $this->sale_price-($this->volume*$product->purchase_price))-($glass->purchase_price*$this->quantity))
-               -$this->discount;
+            $profit =(($this->quantity*$this->sale_price)-$this->discount)
+                -((($this->volume*$product->purchase_price))+($glass->purchase_price*$this->quantity));
         }else{
-            $profit =(( $this->sale_price-($this->quantity*$product->purchase_price))-$this->discount);
+            $profit =(($this->quantity*$this->sale_price)-$this->discount)-$this->quantity*$product->purchase_price;
         }
 
 

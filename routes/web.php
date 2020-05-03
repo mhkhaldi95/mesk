@@ -62,6 +62,8 @@ Route::prefix('dashboard/products')->name('dashboard.products.')->group(function
 });
 
 Route::get('/datatables/clients','ControllerClient@anyData')->name('datatables.clients');//view all clients
+Route::get('/datatables/sellers','ControllerSeller@anyData')->name('datatables.sellers');//view all sellers
+
 Route::get('/datatables/products','ControllerProduct@anyData')->name('datatables.products');//view all products
 Route::get('/datatables/show_sales','ControllerOrder@show_sales')->name('datatables.show_sales');//view all products
 Route::get('/Best_selling_products/getdata','ControllerProduct@Best_selling_products_getData')->name('datatables.Best_selling_products_getData');
@@ -88,6 +90,28 @@ Route::prefix('dashboard/clients')->name('dashboard.clients.')->group(function (
     Route::get('/edit/{client?}','ControllerClient@edit')->name('edit');
     Route::post('/update/{client?}','ControllerClient@update')->name('update');
 });
+
+Route::prefix('dashboard/sellers')->name('dashboard.sellers.')->group(function (){
+
+    Route::get('/index','ControllerSeller@index')->name('index');
+    Route::get('/createview','ControllerSeller@create')->name('create');//view
+    Route::post('/store','ControllerSeller@store')->name('store');//modal
+    Route::post('/delete/{id?}','ControllerSeller@destroy')->name('destroy');
+    Route::get('/edit/{seller?}','ControllerSeller@edit')->name('edit');
+    Route::post('/update/{seller?}','ControllerSeller@update')->name('update');
+    //-----------------------------------------------------------------------
+    Route::get('/orders/index','ControllerSellerOrder@index')->name('orders.index');
+    Route::get('/orders/create/{seller}','ControllerSellerOrder@create')->name('orders.create');//view
+    Route::post('/store/{seller}','ControllerSellerOrder@store')->name('orders.store');
+    Route::get('/orders/old_orders/{seller}','ControllerSellerOrder@old_orders')->name('orders.old_orders');//view
+    Route::get('/orders/old_orders/debt/{seller}/{order}','ControllerSellerOrder@seller_debt_view')->name('seller_debt_view');
+    Route::post('/orders/old_orders/edit_debt/{seller}/{order}','ControllerSellerOrder@edit_seller_debt')->name('edit_debt');
+    Route::get('/showPayments/{seller}/{order}','ControllerSellerOrder@showPayments')->name('showPayments');
+
+});
+
+
+
 Route::prefix('dashboard/clients/orders')->name('dashboard.clients.orders.')->group(function (){
     Route::get('/create/{client}','ControllerOrder@create')->name('create');//view
     Route::get('/create/fetch_data/{client}','ControllerOrder@fetch_data')->name('fetch_data');//oldorder
