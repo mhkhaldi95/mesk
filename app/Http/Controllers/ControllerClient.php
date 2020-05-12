@@ -116,6 +116,7 @@ class ControllerClient extends Controller
     public function showSales(Client $client){
         $orders = $client->orders;
         $index=0;
+        $products_sales = array();
         foreach($orders as $order){
             foreach($order->products as $product){//product row in pivot table
                 $products_sales[$index]=OrderProduct::where('client_id',$client->id)->where('order_id',$order->id)->where('product_id',$product->id)->first();
@@ -125,7 +126,7 @@ class ControllerClient extends Controller
                 $index++;
             }
         }
-       
+
         return view('adminlte.dashboardview.Clients.showSales',compact('client','products_sales','glasses'));
 
     }

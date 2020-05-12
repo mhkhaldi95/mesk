@@ -34,26 +34,26 @@ class UsersTableSeeder extends Seeder
 
                 'name' => $name,
                 ]);
-               
+
       }
-    
-
-     
-
-      for ($i = 1; $i <= 50; $i++) {
-          
-            Product::create([
-                'name' => "product" .$i,
-
-                'sequenceNo' => '00'.$i,
-                'category_id' => rand(1,3),
-                'whole_stoke' => rand(100,2000),
-                'retail_stoke' => rand(100,2000),
-
-                'purchase_price' => 0.4,
-
-                ]);
-  }
+//
+//
+//
+//
+//      for ($i = 1; $i <= 50; $i++) {
+//
+//            Product::create([
+//                'name' => "product" .$i,
+//
+//                'sequenceNo' => '00'.$i,
+//                'category_id' => rand(1,3),
+//                'whole_stoke' => rand(100,2000),
+//                'retail_stoke' => rand(100,2000),
+//
+//                'purchase_price' => 0.4,
+//
+//                ]);
+//  }
         Product::create([
             'name' => 'كحول',
 
@@ -65,20 +65,20 @@ class UsersTableSeeder extends Seeder
             'purchase_price' => 0.2,
 
         ]);
-  for ($i = 10000; $i <= 10010; $i++) {
-          
-    Product::create([
-        'name' => "product" .$i,
-
-        'sequenceNo' => '00'.$i,
-        'category_id' => rand(5,7),
-        'whole_stoke' => 100,
-        'retail_stoke' => 100,
-
-        'purchase_price' => 1,
-
-        ]);
-}
+//  for ($i = 10000; $i <= 10010; $i++) {
+//
+//    Product::create([
+//        'name' => "product" .$i,
+//
+//        'sequenceNo' => '00'.$i,
+//        'category_id' => rand(5,7),
+//        'whole_stoke' => 100,
+//        'retail_stoke' => 100,
+//
+//        'purchase_price' => 1,
+//
+//        ]);
+//}
   Product::create([
     'name' => 'عروس',
 
@@ -90,14 +90,14 @@ class UsersTableSeeder extends Seeder
     'purchase_price' => '1',
 
     ]);
-  for ($i = 1; $i <= 10; $i++) {
-      Client::create([
-          'name' => "Client" .$i,
-            'address'=>'100'.$i,
-            'phone'=>'059734304'.$i
-
-          ]);
-}
+//  for ($i = 1; $i <= 10; $i++) {
+//      Client::create([
+//          'name' => "Client" .$i,
+//            'address'=>'100'.$i,
+//            'phone'=>'059734304'.$i
+//
+//          ]);
+//}
         $user1 = User::Create([
             'name'=>'misk',
             'email'=>'misk@gmail.com',

@@ -45,7 +45,7 @@ class ControllerOrder extends Controller
         
         ->addColumn('action',function($product) {
            
-            $categories = Category::all();
+
             return '<a data-name ="'.$product->name.'" data-value="'.$product->id.'" class="btn btn-primary add_product" >
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>';

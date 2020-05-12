@@ -236,6 +236,7 @@ columns: [
 
   $(document).on("click",'.add_product',function(e){
     e.preventDefault();
+    console.log("asd");
     var name = $(this).data('name');
     var id = $(this).data('value');
     var options = '<option value="'+0+'"></option>';
