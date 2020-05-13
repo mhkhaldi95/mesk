@@ -54,17 +54,17 @@ class UsersTableSeeder extends Seeder
 //
 //                ]);
 //  }
-        Product::create([
-            'name' => 'كحول',
-
-            'sequenceNo' => '00'.$i,
-            'category_id' =>4,
-            'whole_stoke' => rand(1000,2000),
-            'retail_stoke' => rand(1000,2000),
-
-            'purchase_price' => 0.2,
-
-        ]);
+//        Product::create([
+//            'name' => 'كحول',
+//
+//            'sequenceNo' => '00'.$i,
+//            'category_id' =>4,
+//            'whole_stoke' => rand(1000,2000),
+//            'retail_stoke' => rand(1000,2000),
+//
+//            'purchase_price' => 0.2,
+//
+//        ]);
 //  for ($i = 10000; $i <= 10010; $i++) {
 //
 //    Product::create([
@@ -79,18 +79,18 @@ class UsersTableSeeder extends Seeder
 //
 //        ]);
 //}
-  Product::create([
-    'name' => 'عروس',
-
-    'sequenceNo' => '10001',
-    'category_id' =>'5',
-    'whole_stoke' => 100,
-    'retail_stoke' => 100,
-
-    'purchase_price' => '1',
-
-    ]);
-//  for ($i = 1; $i <= 10; $i++) {
+//  Product::create([
+//    'name' => 'عروس',
+//
+//    'sequenceNo' => '10001',
+//    'category_id' =>'5',
+//    'whole_stoke' => 100,
+//    'retail_stoke' => 100,
+//
+//    'purchase_price' => '1',
+//
+//    ]);
+//  for ($i = 1; $i <= 100; $i++) {
 //      Client::create([
 //          'name' => "Client" .$i,
 //            'address'=>'100'.$i,

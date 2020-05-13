@@ -107,6 +107,12 @@ class ControllerClient extends Controller
        
         try{
             $client = Client::findOrFail($id);
+            $client->orders()->delete();
+            $client->points()->delete();
+            foreach ($client->debts as $orderproduct){
+                $orderproduct->payments()->delete();
+            }
+            $client->debts()->delete();
             $client->delete();
         }catch (ModelNotFoundException $exception){
             return redirect()->route('dashboard.clients.index')->withErrors(['error'=>__('غير موجود')]);

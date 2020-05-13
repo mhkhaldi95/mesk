@@ -141,7 +141,7 @@
           
                 $('#table').DataTable( {
             "language": {
-                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Arabic.json"
+                "url": "{{asset('datatables-ar.json')}}"
                 },
             'pagingType':'full_numbers',
             'lengthMenu':[[6,10,20,30,40,-1],[6,10,20,30,40,'الكل']],

@@ -63,5 +63,5 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        {{!!$products->links()!!}}
+                        {!!$products->links()!!}
                       

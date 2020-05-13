@@ -123,6 +123,8 @@ class ControllerOrder extends Controller
             
 
         }
+        $client = $order->clients;
+        $client->points()->delete();
         $order->products()->detach();
 
         $order->delete();

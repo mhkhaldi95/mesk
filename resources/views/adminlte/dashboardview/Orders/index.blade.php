@@ -159,7 +159,7 @@
    $(document).ready(function() {
 $('#table_data_test').DataTable( {
         "language": {
-                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Arabic.json"
+            "url": "{{asset('datatables-ar.json')}}"
             },
             'pagingType':'full_numbers',
         'lengthMenu':[[5,10,15,20,25,-1],[5,10,15,20,25,'الكل']],

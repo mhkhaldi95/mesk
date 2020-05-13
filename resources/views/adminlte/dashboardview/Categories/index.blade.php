@@ -205,7 +205,7 @@
    $(document).ready(function() {
     $('.category_data_table').DataTable( {
         "language": {
-                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Arabic.json"
+            "url": "{{asset('datatables-ar.json')}}"
             },
         'pagingType':'full_numbers',
         'lengthMenu':[[10,20,30,40,-1],[10,20,30,40,'الكل']],

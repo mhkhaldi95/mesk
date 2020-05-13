@@ -78,7 +78,7 @@ if(date<10){
     else  var dateString = year+"-"+(month + 1) +"-"+date;
  $('#table').DataTable( {
     "language": {
-        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Arabic.json"
+        "url": "{{asset('datatables-ar.json')}}"
     },
 'pagingType':'full_numbers',
 'lengthMenu':[[6,10,20,30,40,-1],[6,10,20,30,40,'الكل']],
@@ -107,7 +107,41 @@ columns: [
 ],
 "oSearch": {
 "sSearch":dateString
-}
+},
+     "footerCallback": function ( row, data, start, end, display ) {
+         var api = this.api(), data;
+
+         // Remove the formatting to get integer data for summation
+         var intVal = function ( i ) {
+             return typeof i === 'string' ?
+                 i.replace(/[\$,]/g, '')*1 :
+                 typeof i === 'number' ?
+                     i : 0;
+         };
+
+         // Total over all pages
+         total = api
+             .column( 12 )
+             .data()
+             .reduce( function (a, b) {
+                 return intVal(a) + intVal(b);
+             }, 0 );
+
+         // Total over this page
+         pageTotal = api
+             .column( 12, { page: 'current'} )
+             .data()
+             .reduce( function (a, b) {
+                 return intVal(a) + intVal(b);
+             }, 0 );
+         var html = `<tfoot><tr><td colspan="12">المجموع </td><td class="total"></td><td></td></tr></tfoot>`
+         $('.table').append(html);
+         $('.total').html(total+"( "+pageTotal+" )");
+         // Update footer
+         // $( api.column( 12 ).footer() ).html(
+         //     '   مجموع الصفحة الحالية  '+   pageTotal+'  شيكل   ' +' (  المجموع الكلي للدين'+ total +'   شيكل)'
+         // );
+     }
 
 });
     });
